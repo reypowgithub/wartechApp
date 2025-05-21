@@ -1,11 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View } from "react-native";
-import ProductItem from "../../component/product/product_item";
+import ProductSection from "../../component/home/product_section";
 
 export default function Home() {
   return (
     <View style={styles.container}>
-      <ProductItem />
+      <ProductSection />
     </View>
   );
 }
