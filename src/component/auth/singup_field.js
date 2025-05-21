@@ -1,5 +1,6 @@
 import { Text, TextInput, View } from "react-native";
 
+
 export default function signup_field() {
   return (
     <View style={{ margin: 30 }}>
