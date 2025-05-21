@@ -21,9 +21,9 @@ import ProductDetail from "../../component/product/productDetail";
 import ProductHeader from "../../component/product/productHeadbar";
 import ProductButton from "../../component/product/productBtnAddCart";
 
-import OrderTrack from "../../component/order/orderTrack";
 import HomeNavbar from "../../component/home/homeNavbar";
-
+import OrderTrack from "../../component/order/orderTrack";
+import HistoryList from "../../component/history/historyList";
 
 export default function login() {
 
@@ -102,7 +102,7 @@ export default function login() {
       <ProductButton /> */}
 
       <View>
-        <OrderTrack />
+        <HistoryList />
         <HomeNavbar />
       </View>
     </View>

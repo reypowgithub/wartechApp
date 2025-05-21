@@ -29,8 +29,8 @@ export default function HomeNavbar() {
 
 const styles = StyleSheet.create({
   container: {
-    top: 26,
-    bottom: 0,
+    position: 'absolute',       // ⬅️ agar menempel ke layar
+    bottom: 0,                  // ⬅️ menempel ke bawah
     left: 0,
     right: 0,
     flexDirection: 'row',
@@ -46,6 +46,7 @@ const styles = StyleSheet.create({
     shadowRadius: 10,
     elevation: 10,
   },
+
   item: {
     alignItems: 'center',
   },

@@ -141,14 +141,10 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
     },
     divider: {
-        alignItems: 'center',
-        height: 0.1,         // h-px
+        height: 1,
         backgroundColor: '#FA4A0C',
-        width: 300,        // w-60 → 60 * 4
-        paddingVertical: 2, // py-0.5 → 0.5 * 4 = 2
-        marginTop: 24,
-        marginBottom: 24,
-        opacity: 0.5
+        opacity: 0.3,
+        marginVertical: 16,
     },
     row: {
         flexDirection: 'row',     // ➜ bikin horizontal
