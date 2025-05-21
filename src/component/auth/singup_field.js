@@ -1,13 +1,19 @@
 import { Text, TextInput, View } from "react-native";
 
 
-export default function signup_field() {
+export default function signup_field({ name, setName }) {
   return (
     <View style={{ margin: 30 }}>
       <Text style={{ fontWeight: "thin", color: "gray" }}>
         Nama Lengkap lo dong!
       </Text>
-      <TextInput style={{ margin: 5 }} placeholder="Geem Berkarir" />
+      <TextInput 
+        style={{ margin: 5 }} 
+        placeholder="Geem Berkarir" 
+        value={name}
+        onChangeText={setName}
+        autoCapitalize='none'
+      />
       <View
         style={{ height: 1, backgroundColor: "black", marginVertical: 10 }}
       />
