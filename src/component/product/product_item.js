@@ -4,7 +4,7 @@ import icon from "../../../assets/icon.png";
 
 export default function ProductItem() {
   return (
-    <View className="m-4 items-center justify-center">
+    <View className="m-4 items-center justify-center mt-[70]">
       <View className="bg-white pt-12 p-4 rounded-[30px] items-center justify-center w-[220px] h-[300px] shadow-md relative">
         <Text className="font-bold mb-1 text-[20px] text-black text-center mt-10">
           Pecel Sambal Lele
