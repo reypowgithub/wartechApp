@@ -24,6 +24,7 @@ import ProductButton from "../../component/product/productBtnAddCart";
 import HomeNavbar from "../../component/home/homeNavbar";
 import OrderTrack from "../../component/order/orderTrack";
 import HistoryList from "../../component/history/historyList";
+import RatingList from "../../component/rating/ratingList";
 
 export default function login() {
 
@@ -102,8 +103,8 @@ export default function login() {
       <ProductButton /> */}
 
       <View>
-        <HistoryList />
-        <HomeNavbar />
+        <RatingList />
+        {/* <HomeNavbar /> */}
       </View>
     </View>
 
