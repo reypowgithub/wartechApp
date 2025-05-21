@@ -1,11 +1,9 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-import "./global.css";
+import { StatusBar, StyleSheet, Text, View } from "react-native";
 
-export default function App() {
+export default function SignUp() {
   return (
     <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
+      <Text>SignUp dulu woy</Text>
       <StatusBar style="auto" />
     </View>
   );
