@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { router } from "expo-router";
 import api from "../../lib/api";
-import { setAccessToken, getAccessToken } from "../../lib/auth";
 import { useState, useEffect } from "react";
 
 import Header from "../../component/auth/loginHeader";
@@ -26,24 +25,20 @@ import OrderTrack from "../../component/order/orderTrack";
 import HistoryList from "../../component/history/historyList";
 import RatingList from "../../component/rating/ratingList";
 
+import useAuthStore from "../../store/authStore";
+
 export default function login() {
 
   const [phoneNumber, setPhoneNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    const getToken = async () => {
-      const currentToken = await getAccessToken();
-      console.log("token:", currentToken);
-    }
-
-    getToken();
-  }, []);
+  const setToken = useAuthStore((state) => state.setToken);
+  const loadToken = useAuthStore((state) => state.loadToken);
 
   const handleLogin = async () => {
     if (!phoneNumber) {
-      setError("Please fill in all fields");
+      setError("Please fill in your phone number.");
       return;
     }
 
@@ -52,17 +47,16 @@ export default function login() {
 
     try {
       const response = await api.post("/auth/login", {
-        phone_number: phoneNumber
+        phone_number: phoneNumber,
       });
 
-      console.log(response);
-
-      await setAccessToken(response.data.accessToken);
+      await setToken(response.data.accessToken); // ✅ store in SecureStore & memory
       router.replace("/(main)");
-    } catch (e) {
-      console.error("Login Error:", e);
+    } catch (err) {
+      console.error("Login error:", err);
       setError("Login failed. Please try again.");
     } finally {
+      await loadToken(); // ✅ force re-sync to Zustand memory
       setLoading(false);
     }
   };

@@ -1,7 +1,4 @@
 import {
-  Button,
-  StatusBar,
-  StyleSheet,
   Text,
   TouchableOpacity,
   View,
@@ -12,14 +9,15 @@ import Header from "../../component/auth/loginHeader";
 import { router } from "expo-router";
 import { useState } from "react";
 import api from "../../lib/api";
-import { setAccessToken } from "../../lib/auth";
+import useAuthStore from "../../store/authStore"; // ✅ import Zustand store
 
 export default function SignUp() {
-
   const [name, setName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const setToken = useAuthStore((state) => state.setToken); // ✅ Zustand setter
 
   const handleRegister = async () => {
     if (!name || !phoneNumber) {
@@ -31,20 +29,21 @@ export default function SignUp() {
     setError("");
 
     try {
-      const response = await api.post("/auth/register", {
-        name: name,
-        phone_number: phoneNumber
+      await api.post("/auth/register", {
+        name,
+        phone_number: phoneNumber,
       });
-      console.log("response:", response);
-      router.back();
+
+      // ✅ Show success and redirect to login
+      console.log("Registration successful!");
+      router.replace("/auth/login");
     } catch (e) {
       setError("Register failed. Please try again.");
       console.error("Register Error:", e);
     } finally {
       setLoading(false);
-      handleGoToLogin();
     }
-  }
+  };
 
   const handleGoToLogin = () => {
     router.replace("/auth/login");
@@ -52,9 +51,7 @@ export default function SignUp() {
 
   return (
     <View className="flex-1 bg-[#F2F2F2] justify-between">
-      <View>
-        <Header />
-      </View>
+      <Header />
       <SingUp_field
         name={name}
         setName={setName}
@@ -63,7 +60,7 @@ export default function SignUp() {
       />
       <View className="mt-10">
         <View className="flex-row items-center justify-center mt-10 space-x-2">
-          <Text className="text-gray-500 text-center">Udah punya akun? </Text>
+          <Text className="text-gray-500">Udah punya akun?</Text>
           <TouchableOpacity onPress={handleGoToLogin}>
             <Text className="text-[#FA4A0C] font-bold ms-3">
               Langsung cus login!

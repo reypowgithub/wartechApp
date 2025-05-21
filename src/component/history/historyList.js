@@ -1,5 +1,8 @@
 import { View, Text, StyleSheet, TouchableOpacity, ScrollView } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useEffect, useState } from 'react';
+import api from '../../lib/api';
+import useAuthStore from '../../store/authStore';
 
 const historyData = [
     {
@@ -30,11 +33,56 @@ const historyData = [
 ];
 
 export default function HistoryList() {
+    const [history, setHistory] = useState([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const token = useAuthStore((state) => state.token); // ✅ get token from Zustand
+
+    useEffect(() => {
+        if (token) {
+        fetchHistoryList();
+        }
+    }, [token]); // ✅ only fetch after token is ready
+
+    useEffect(() => {
+        console.log("History updated:", history[0]);
+    }, [history]);
+
+
+    const fetchHistoryList = async () => {
+        setLoading(true);
+        try {
+            const response = await api.get('/order/history', {
+                headers: {
+                Authorization: `Bearer ${token}`,
+                },
+            });
+            setHistory(response.data);
+        } catch (error) {
+            console.error('Error fetching history:', error);
+            setError(error);
+        } finally {            
+            setLoading(false);
+        }
+    };
+
+    const mapOrderType = (type) => {
+        switch (type) {
+            case "dine_in":
+                return "Dine In"
+            case "pick_up":
+                return "Pick Up"     
+            default:
+                break;
+        }
+    }
+
+
     return (
         <ScrollView style={styles.wrapper}>
             <Text style={styles.heading}>History</Text>
 
-            {historyData.map((order) => (
+            {history.map((order) => (
                 <View key={order.id} style={styles.card}>
                     <View style={styles.rowBetween}>
                         <Text style={styles.orderId}>Order ID : {order.id}</Text>
@@ -47,21 +95,22 @@ export default function HistoryList() {
 
                     <Text style={styles.sectionTitle}>Items</Text>
                     <View style={styles.itemList}>
-                        {order.items.map((item, idx) => (
-                            <Text key={idx}>• {item}</Text>
+                        {order?.items.map((item, idx) => (
+                            <Text key={idx}>• {item?.menuItem.name}</Text>
                         ))}
                     </View>
 
                     <View style={[styles.rowBetween, { marginTop: 12 }]}>
-                        <Text>{order.slot}</Text>
-                        <Text style={{ fontWeight: '600' }}>{order.method}</Text>
+                        <Text>{order.slot.start_time} - {order.slot.start_time}</Text>
+                        
+                        <Text style={{ fontWeight: '600' }}>{mapOrderType(order.type)}</Text>
                     </View>
 
                     <View style={styles.divider} />
 
                     <View style={[styles.rowBetween, { marginTop: 12 }]}>
                         <Text style={{ fontWeight: 'bold' }}>Total :</Text>
-                        <Text style={{ fontWeight: 'bold', color: '#FA4A0C' }}>{order.total}</Text>
+                        <Text style={{ fontWeight: 'bold', color: '#FA4A0C' }}>Rp. {order.total_price}</Text>
                     </View>
 
                     <TouchableOpacity style={styles.feedbackButton}>
