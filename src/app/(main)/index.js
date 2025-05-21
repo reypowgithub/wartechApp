@@ -1,21 +1,25 @@
-import { StatusBar } from "expo-status-bar";
-import { StyleSheet, Text, View } from "react-native";
-// import ProductSection from "../../component/home/product_section";
-import CartItem from "../../component/cart/cart.item";
+import { View, Text, Button } from 'react-native';
+import { removeAccessToken } from "../../lib/auth";
+import { router } from "expo-router";
+import ProductSection from "../../component/home/homeProductSection"
+
 
 export default function Home() {
+
+  // MARK: TOLONG APUS LOGOUT KALO UDAH BUAT YANG PROPER!!!!!!!! -BAPHOMET
+  const handleLogout = async () => {
+    await removeAccessToken();
+    router.replace("/auth/login");
+  };
+
   return (
-    <View>
-      <CartItem />
+    // <View style={styles.container}>
+      <View>
+      <ProductSection />
+      <Button
+        title="Log Out"
+        onPress={handleLogout}
+      />
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

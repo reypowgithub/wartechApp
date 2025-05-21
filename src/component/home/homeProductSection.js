@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Text,
   TouchableOpacity,
@@ -6,36 +6,49 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
-import ProductItem from "../product/product_item";
-import ProductItem_outstock from "../product/product_outstock";
+import ProductItem from "../product/productItem";
+import ProductItem_outstock from "../product/productOutstock";
+import api from "../../lib/api";
 
 const { width } = Dimensions.get("window");
 
 export default function ProductSection() {
-  const [activeCategory, setActiveCategory] = useState("Foods");
+  const [activeCategory, setActiveCategory] = useState("food");
+  const [menuData, setMenuData] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const data = {
-    Foods: [
-      { id: "1", type: "available" },
-      { id: "2", type: "available" },
-      { id: "3", type: "outstock" },
-    ],
-    Drinks: [
-      { id: "4", type: "available" },
-      { id: "5", type: "outstock" },
-    ],
-    Additional: [
-      { id: "6", type: "outstock" },
-      { id: "7", type: "outstock" },
-    ],
+  useEffect(() => {
+    fetchMenu();
+  }, []);
+
+  const fetchMenu = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get('/menu');
+      setMenuData(response.data);
+    } catch (error) {
+      setError("Failed to load menu");
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const categories = ["Foods", "Drinks", "Additional"];
+// ✅ Move this inside render so it always gets the latest data
+  const filteredData = menuData
+    .filter(item => item.category.toLowerCase() === activeCategory.toLowerCase())
+    .map(item => ({
+      ...item,
+      type: item.available_stock > 0 ? "available" : "outstock"
+  }));
+
+  const categories = ["food", "drinks", "additional"];
 
   const renderItem = ({ item }) => {
     return (
       <View style={{ width: width - 40 }}>
-        {item.type === "available" ? <ProductItem /> : <ProductItem_outstock />}
+        {item.type === "available" ? <ProductItem menuData={item} /> : <ProductItem_outstock />}
       </View>
     );
   };
@@ -75,9 +88,9 @@ export default function ProductSection() {
 
       {/* Item List */}
       <FlatList
-        data={data[activeCategory]}
+        data={filteredData}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.id.toString()}
         horizontal
         showsHorizontalScrollIndicator={false}
         pagingEnabled
