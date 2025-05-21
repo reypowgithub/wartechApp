@@ -18,7 +18,7 @@ export default function Index() {
 
         getToken();
 
-        console.log("Hit");
+        console.log("Hit Index");
     }, []);
 
     if (loading) {

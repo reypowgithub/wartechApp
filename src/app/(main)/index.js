@@ -1,6 +1,7 @@
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import { removeAccessToken } from "../../lib/auth";
 import { router } from "expo-router";
+import ProductSection from "../../component/home/homeProductSection"
 
 
 export default function Home() {
@@ -12,7 +13,8 @@ export default function Home() {
   };
 
   return (
-    <View style={styles.container}>
+    // <View style={styles.container}>
+      <View>
       <ProductSection />
       <Button
         title="Log Out"
