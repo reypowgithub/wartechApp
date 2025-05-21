@@ -6,9 +6,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import SingUp_field from "../../component/auth/singup_field";
-import LoginButton from "../../component/auth/login_button";
-import Header from "../../component/auth/header";
+import SingUp_field from "../../component/auth/signUpField";
+import LoginButton from "../../component/auth/loginButton";
+import Header from "../../component/auth/loginHeader";
 import { router } from "expo-router";
 import { useState } from "react";
 import api from "../../lib/api";
@@ -22,27 +22,27 @@ export default function SignUp() {
   const [error, setError] = useState("");
 
   const handleRegister = async () => {
-    if(!name || !phoneNumber) {
-        setError("Please fill in all fields");
-        return;
+    if (!name || !phoneNumber) {
+      setError("Please fill in all fields");
+      return;
     }
-  
+
     setLoading(true);
     setError("");
-  
+
     try {
-        const response = await api.post("/auth/register", {
-            name: name,
-            phone_number: phoneNumber
-        });
-        console.log("response:", response);
-        router.back();
+      const response = await api.post("/auth/register", {
+        name: name,
+        phone_number: phoneNumber
+      });
+      console.log("response:", response);
+      router.back();
     } catch (e) {
-        setError("Register failed. Please try again.");
-        console.error("Register Error:", e);
+      setError("Register failed. Please try again.");
+      console.error("Register Error:", e);
     } finally {
-        setLoading(false);
-        handleGoToLogin();
+      setLoading(false);
+      handleGoToLogin();
     }
   }
 
@@ -55,7 +55,7 @@ export default function SignUp() {
       <View>
         <Header />
       </View>
-      <SingUp_field 
+      <SingUp_field
         name={name}
         setName={setName}
         phoneNumber={phoneNumber}

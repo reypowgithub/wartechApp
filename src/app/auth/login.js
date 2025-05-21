@@ -6,9 +6,9 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import Login_field from "../../component/auth/login_field";
-import LoginButton from "../../component/auth/login_button";
-import Header from "../../component/auth/header";
+import Login_field from "../../component/auth/loginField";
+import LoginButton from "../../component/auth/loginButton";
+import Header from "../../component/auth/loginHeader";
 import { router } from "expo-router";
 import api from "../../lib/api";
 import { setAccessToken, getAccessToken } from "../../lib/auth";
@@ -22,8 +22,8 @@ export default function login() {
 
   useEffect(() => {
     const getToken = async () => {
-        const currentToken = await getAccessToken();
-        console.log("token:", currentToken);
+      const currentToken = await getAccessToken();
+      console.log("token:", currentToken);
     }
 
     getToken();
@@ -64,7 +64,7 @@ export default function login() {
       <View>
         <Header />
       </View>
-      <Login_field 
+      <Login_field
         phoneNumber={phoneNumber}
         setPhoneNumber={setPhoneNumber}
       />
@@ -77,7 +77,7 @@ export default function login() {
             </Text>
           </TouchableOpacity>
         </View>
-        <LoginButton 
+        <LoginButton
           handleLogin={handleLogin}
           loading={loading}
           buttonText="Login"
