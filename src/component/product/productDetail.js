@@ -1,68 +1,74 @@
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 
-export default function FoodsList() {
-    const dummyFoods = [
-        { id: 1, name: "Pecel Sambel Lele", price: "Rp 21.000" },
-    ];
+export default function FoodDetailCard() {
     return (
-        <View style={{}}>
+        <View style={styles.card}>
+            <Image
+                source={require('../../../assets/food.png')} // ganti dengan gambar kamu
+                style={styles.image}
+                resizeMode="cover"
+            />
 
-            {dummyFoods.map((item) => (
-                <TouchableOpacity key={item.id} style={styles.card}>
-                    <Image
-                        source={require('../../../assets/food.png')}
-                        style={styles.image}
-                        resizeMode="cover"
-                    />
-                </TouchableOpacity>
+            <Text style={styles.title}>Pecel Sambal Lele</Text>
+            <Text style={styles.price}>Rp. 21.000</Text>
 
-            ))}
+            <Text style={styles.sectionTitle}>Food Description</Text>
+            <Text style={styles.description}>
+                Lele goreng yang gurih dan renyah dipadukan dengan sambal khas yang pedas menyegarkan. Dilengkapi dengan aneka sayuran rebus dan siraman bumbu pecel yang kaya rasa.
+            </Text>
 
-            <View style={styles.textContainer}>
-                <Text style={styles.title}>a</Text>
-                <Text style={styles.price}>a</Text>
+            <Text style={styles.sectionTitle}>Rating</Text>
+            <View style={styles.stars}>
+                {[1, 2, 3, 4].map((i) => (
+                    <Ionicons key={i} name="star" size={24} color="#FFD700" />
+                ))}
+                <Ionicons name="star-half" size={24} color="#FFD700" />
             </View>
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container: {
-        // backgroundColor: 'green',
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingHorizontal: 16,
-        marginTop: 60
-    },
     card: {
-        flexDirection: 'row',
-        alignItems: 'center',
+        padding: 24,
         borderRadius: 16,
-        padding: 12,
-        marginHorizontal: 20,
-        marginBottom: 24,
-        shadowColor: '#fff',
-        shadowOpacity: 0.05,
-        shadowOffset: { width: 0, height: 2 },
-        shadowRadius: 4,
-        elevation: 3,
+
+        alignItems: 'center',
+
     },
     image: {
-        width: 280,
-        height: 280,
-        borderRadius: 300,
-        marginRight: 16,
+        width: 250,
+        height: 250,
+        borderRadius: 200,
+
     },
     title: {
+        fontSize: 28,
         fontWeight: 'bold',
-        fontSize: 16,
         marginBottom: 4,
-        color: '#111',
     },
     price: {
-        color: '#FF4500',
+        color: '#FA4A0C',
+        fontWeight: '600',
+        marginBottom: 10,
+    },
+    sectionTitle: {
         fontWeight: 'bold',
-        fontSize: 15,
+        fontSize: 14,
+        alignSelf: 'flex-start',
+        marginTop: 12,
+    },
+    description: {
+        textAlign: 'left',
+        color: '#444',
+        fontSize: 14,
+        marginTop: 6,
+        opacity: 0.5,
+    },
+    stars: {
+        flexDirection: 'row',
+        marginTop: 6,
+        alignSelf: 'flex-start',
     },
 });

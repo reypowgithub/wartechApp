@@ -29,7 +29,7 @@ export default function HomeNavbar() {
 
 const styles = StyleSheet.create({
   container: {
-    position: 'absolute',
+    top: 26,
     bottom: 0,
     left: 0,
     right: 0,
