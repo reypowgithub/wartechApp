@@ -1,34 +1,24 @@
-import "../../../global.css";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View, Button } from "react-native";
+import ProductSection from "../../component/home/product_section";
+import { removeAccessToken } from "../../lib/auth";
+import { router } from "expo-router";
 
-import { View, Text } from 'react-native';
-import LoginHeader from '../../../component/Login/loginHeader';
-import Loginfield from '../../../component/Login/loginField';
-import LoginfieldOTP from '../../../component/Login/loginFieldOTP';
+export default function Home() {
 
-import HomeTopBar from "../../../component/Home/homeTopbar";
-import HomeNavbar from "../../../component/Home/homeNavbar";
+  // MARK: TOLONG APUS LOGOUT KALO UDAH BUAT YANG PROPER!!!!!!!! -BAPHOMET
+  const handleLogout = async () => {
+    await removeAccessToken();
+    router.replace("/auth/login");
+  };
 
-import FoodsHeadbar from "../../../component/foods/foodsHeadbar";
-import FoodsList from "../../../component/foods/foodsList";
-import FoodsDetail from "../../../component/foods/foodsDetail";
-
-
-export default function App() {
   return (
-    <View>
-      {/* LOGIN */}
-      {/* <LoginHeader />
-      <Loginfield />
-      <LoginfieldOTP /> */}
-
-      {/* MENU HOME */}
-      {/* <HomeTopBar />
-      <HomeNavbar /> */}
-
-      {/* MENU FOOD */}
-      <FoodsHeadbar />
-      {/* <FoodsList /> */}
-      <FoodsDetail />
+    <View style={styles.container}>
+      <ProductSection />
+      <Button 
+        title="Log Out"
+        onPress={handleLogout}
+      />
     </View>
   );
 }

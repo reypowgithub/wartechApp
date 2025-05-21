@@ -15,7 +15,7 @@ export default function RootLayout() {
               StatusBarBackgroundColor: "#ffffff",
               StatusBarStyle: "dark",
               ContentStyle: { backgroundColor: "#f2f2f2" },
-              presentation: "modal",
+              animation: "slide_from_right", // <-- animasi slide dari kanan
             }}
           >
             <StatusBar style="dark" />
