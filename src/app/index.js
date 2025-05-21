@@ -4,5 +4,6 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, View } from "react-native";
 
 export default function Index() {
-  return <Redirect href={"/auth/signup"} />;
+  return <Redirect href="/(main)" />;
 }
+
