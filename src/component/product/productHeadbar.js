@@ -1,6 +1,6 @@
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import IconFavorit from '../../assets/Heart.svg';
+import IconFavorit from '../../../assets/Heart.svg';
 
 export default function FoodsHeadbar() {
     return (

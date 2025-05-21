@@ -4,7 +4,7 @@ export default function YourComponent() {
   return (
     <View style={styles.container}>
       <Image
-        source={require('../../assets/wartech_logo.png')}
+        source={require('../../../assets/wartech_logo.png')}
         style={styles.logo}
         resizeMode="contain"
       />

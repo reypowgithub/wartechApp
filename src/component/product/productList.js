@@ -1,6 +1,6 @@
 import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import IconFavorit from '../../assets/Heart.svg';
+import IconFavorit from '../../../assets/Heart.svg';
 
 export default function FoodsList() {
     const dummyFoods = [
@@ -28,7 +28,7 @@ export default function FoodsList() {
             {dummyFoods.map((item) => (
                 <TouchableOpacity key={item.id} style={styles.card}>
                     <Image
-                        source={require('../../assets/food.png')}
+                        source={require('../../../assets/food.png')}
                         style={styles.image}
                         resizeMode="cover"
                     />

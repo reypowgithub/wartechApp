@@ -1,7 +1,7 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import Logo from '../../assets/wartech_logo.svg';
-import IconFavorit from '../../assets/icon_favorit.svg';
+import Logo from '../../../assets/wartech_logo.svg';
+import IconFavorit from '../../../assets/icon_favorit.svg';
 
 export default function HomeTopBar() {
     return (

@@ -10,7 +10,7 @@ export default function FoodsList() {
             {dummyFoods.map((item) => (
                 <TouchableOpacity key={item.id} style={styles.card}>
                     <Image
-                        source={require('../../assets/food.png')}
+                        source={require('../../../assets/food.png')}
                         style={styles.image}
                         resizeMode="cover"
                     />

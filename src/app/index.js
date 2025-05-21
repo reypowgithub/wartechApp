@@ -6,7 +6,7 @@ import "../../global.css";
 
 export default function Index() {
 
-  const [token, setToken] = useState(null);
+    const [token, setToken] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {

@@ -6,8 +6,8 @@ import {
   FlatList,
   Dimensions,
 } from "react-native";
-import ProductItem from "../product/product_item";
-import ProductItem_outstock from "../product/product_outstock";
+import ProductItem from "../product/productItem";
+import ProductItem_outstock from "../product/productOutstock";
 
 const { width } = Dimensions.get("window");
 
