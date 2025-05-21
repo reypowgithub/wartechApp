@@ -56,7 +56,7 @@ export default function login() {
   };
 
   const handleNavigateToSignup = () => {
-    router.replace("/auth/signup");
+    router.push("/auth/signup");
   };
 
   return (
@@ -80,6 +80,7 @@ export default function login() {
         <LoginButton 
           handleLogin={handleLogin}
           loading={loading}
+          buttonText="Login"
         />
       </View>
     </View>

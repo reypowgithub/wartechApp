@@ -1,11 +1,7 @@
 import { router } from "expo-router";
 import { Text, TouchableOpacity, View, ActivityIndicator } from "react-native";
 
-export default function LoginButton({loading, handleLogin}) {
-  const loginHandler = () => {
-    router.replace("/(main)");
-  };
-
+export default function LoginButton({loading, handleLogin, buttonText}) {
   return (
     <TouchableOpacity 
       onPress={handleLogin}
@@ -15,7 +11,7 @@ export default function LoginButton({loading, handleLogin}) {
         {loading ? (
           <ActivityIndicator color="#fff" />
         ) : (
-          <Text className="text-white text-[17px]">Login</Text>
+          <Text className="text-white text-[17px]">{buttonText}</Text>
         )}
       </View>
     </TouchableOpacity>
