@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
     View,
     Text,
@@ -9,6 +9,10 @@ import {
     TextInput,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import api from '../../lib/api';
+import useAuthStore from '../../store/authStore';
+
+import dummyImage from '../../../assets/food.png'
 
 const dummyData = [
     {
@@ -50,15 +54,75 @@ const dummyData = [
 
 export default function RatingList() {
     const [foods, setFoods] = useState(dummyData);
+    const [menuItems, setMenuItems] = useState([]);
+    const [totalRating, setTotalRating] = useState(null);
+    const [ratingCount, setRatingCount] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
+    const token = useAuthStore((state) => state.token); // ✅ get token from Zustand
 
-    const handleSendReview = () => {
-        const updated = foods.map(food => ({
-            ...food,
-            rating: 5,
-            comment: 'enak mantap',
-        }));
-        setFoods(updated);
+    useEffect(() => {
+        if (token) {
+            fetchOrderDetails();
+        }
+    }, [token]); // ✅ only fetch after token is ready
+
+    const fetchOrderDetails = async () => {
+        const id = 1;
+        try {
+          const response = await api.get(`/order/${id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+      
+          const withRating = response.data.items.map(item => ({
+            ...item,
+            rating: 0, // Local-only field
+          }));
+      
+          setMenuItems(withRating);
+        } catch (error) {
+          console.error(error);
+        }
     };
+
+    const addRatings = async (menuItemId, value) => {
+        try {
+          await api.post(`/rate/${menuItemId}`, { rating: value });
+          console.log(`Rated ${value} for menu item ${menuItemId}`);
+        } catch (error) {
+          console.error('Rating error:', error.response?.data || error.message);
+        }
+    };
+      
+
+    const handleSendReview = async () => {
+        try {
+          setLoading(true);
+          const ratedItems = menuItems.filter(item => item.rating > 0);
+      
+          if (ratedItems.length === 0) {
+            alert("Please rate at least one item.");
+            return;
+          }
+      
+          await Promise.all(
+            ratedItems.map(item =>
+              api.post(`/rate/${item.menuItem.id}`, {
+                rating: item.rating
+              })
+            )
+          );
+      
+          alert("Thanks! Your reviews have been submitted.");
+        } catch (error) {
+          console.error("Submission failed:", error.response?.data || error.message);
+          alert("Failed to submit reviews. Please try again.");
+        } finally {
+          setLoading(false);
+        }
+    };      
 
     const handleChangeComment = (id, newComment) => {
         const updated = foods.map(food =>
@@ -87,36 +151,43 @@ export default function RatingList() {
 
                 {/* Scrollable only this section */}
                 <ScrollView style={{ maxHeight: 300 }} showsVerticalScrollIndicator={false}>
-                    {foods.map((food, index) => (
-                        <View key={index} style={styles.foodRow}>
-                            <Image source={food.image} style={styles.image} />
-                            <View style={{ flex: 1 }}>
-                                <Text style={styles.foodName}>{food.name}</Text>
-                                <View style={styles.starRow}>
-                                    {[1, 2, 3, 4, 5].map(i => (
-                                        <Ionicons
-                                            key={i}
-                                            name={i <= food.rating ? 'star' : 'star-outline'}
-                                            size={20}
-                                            color="#FFD700"
-                                        />
-                                    ))}
-                                </View>
-                                <TextInput
-                                    placeholder="Tulis komentar lo..."
-                                    placeholderTextColor="#CBCBCB"
-                                    value={food.comment}
-                                    style={styles.comment}
-                                    editable={true}
-                                    onChangeText={(text) => handleChangeComment(food.id, text)}
+                {menuItems.map((item) => (
+                    <View key={item.id} style={styles.foodRow}>
+                        <Image source={dummyImage} style={styles.image} />
+                        <View style={{ flex: 1 }}>
+                            <Text style={styles.foodName}>{item.menuItem.name}</Text>
+                            <View style={styles.starRow}>
+                            {[1, 2, 3, 4, 5].map(i => (
+                                <TouchableOpacity
+                                key={i}
+                                onPress={() => {
+                                    const updated = menuItems.map(f =>
+                                    f.id === item.id ? { ...f, rating: i } : f
+                                    );
+                                    setMenuItems(updated);
+                                }}
+                                >
+                                <Ionicons
+                                    name={i <= item.rating ? 'star' : 'star-outline'}
+                                    size={20}
+                                    color="#FFD700"
                                 />
+                                </TouchableOpacity>
+                            ))}
                             </View>
                         </View>
-                    ))}
+                    </View>
+                ))}
                 </ScrollView>
             </View>
-            <TouchableOpacity style={styles.button} onPress={handleSendReview}>
-                <Text style={styles.buttonText}>Kirim review lo</Text>
+            <TouchableOpacity
+                style={[styles.button, loading && { opacity: 0.5 }]}
+                onPress={handleSendReview}
+                disabled={loading}
+            >
+                <Text style={styles.buttonText}>
+                    {loading ? 'Submitting...' : 'Kirim review lo'}
+                </Text>
             </TouchableOpacity>
         </View>
     );
