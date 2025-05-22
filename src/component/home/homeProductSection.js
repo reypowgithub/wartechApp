@@ -51,10 +51,10 @@ export default function ProductSection() {
         {item.type === "available" ? <ProductItem menuData={item} /> : <ProductItem_outstock />}
       </View>
     );
-  };
+  };  
 
   return (
-    <View className="px-6 mt-10 ">
+    <View className="px-6">
       {/* Kategori */}
       <View className="flex-row mt-10">
         {categories.map((category) => (

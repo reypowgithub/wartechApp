@@ -53,7 +53,6 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         borderRadius: 10,
         marginTop: 20,
-        marginBottom: 20,
         borderRadius: 0,
     },
     icon: {
