@@ -1,7 +1,8 @@
-import { View, Text, Button } from 'react-native';
+import { View, Text, Button, ScrollView, TouchableOpacity } from 'react-native';
 import { router } from "expo-router";
 import ProductSection from "../../component/home/homeProductSection"
-import HistoryList from '../../component/history/historyList';
+import Topbar from '../../component/home/homeTopbar';
+import Navbar from '../../component/home/homeNavbar';
 import useAuthStore from '../../store/authStore';
 
 
