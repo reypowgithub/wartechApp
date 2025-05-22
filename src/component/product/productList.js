@@ -2,7 +2,11 @@ import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'reac
 import { Ionicons } from '@expo/vector-icons';
 import IconFavorit from '../../../assets/Heart.svg';
 
+import { useRouter } from "expo-router";
+
 export default function FoodsList() {
+    const router = useRouter();
+
     const dummyFoods = [
         { id: 1, name: "Pecel Sambel Lele", price: "Rp 21.000" },
         { id: 2, name: "Ikan Telur Rebus", price: "Rp 21.000" },
@@ -26,7 +30,13 @@ export default function FoodsList() {
             </View>
 
             {dummyFoods.map((item) => (
-                <TouchableOpacity key={item.id} style={styles.card}>
+                <TouchableOpacity
+                    key={item.id}
+                    style={styles.card}
+                    onPress={() => {
+                        router.replace("/screen/productDetail");
+                    }}
+                >
                     <Image
                         source={require('../../../assets/food.png')}
                         style={styles.image}

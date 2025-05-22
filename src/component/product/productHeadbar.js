@@ -1,13 +1,23 @@
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity, Image, Button } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import IconFavorit from '../../../assets/Heart.svg';
 
+import { useRouter } from "expo-router";
+import { useNavigation } from "@react-navigation/native";
+
 export default function FoodsHeadbar() {
+    const router = useRouter();
+    const navigation = useNavigation();
+
     return (
         <View style={{ backgroundColor: "#F2F2F2" }}>
             <View style={styles.container}>
-                <View style={{}}>
-                    <Ionicons name="chevron-back-outline" size={24} color="#FA4A0C" style={styles.icon} />
+                <View>
+                    <TouchableOpacity
+                        onPress={() => router.replace("./home")}
+                    >
+                        <Ionicons name="chevron-back-outline" size={24} color="#FA4A0C" />
+                    </TouchableOpacity>
                 </View>
                 <View style={{}}>
                     <View style={styles.glowWrapper}>

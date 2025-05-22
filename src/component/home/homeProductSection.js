@@ -9,10 +9,13 @@ import {
 import ProductItem from "../product/productItem";
 import ProductItem_outstock from "../product/productOutstock";
 import api from "../../lib/api";
+import { useRouter } from "expo-router";
 
 const { width } = Dimensions.get("window");
 
 export default function ProductSection() {
+  const router = useRouter();
+
   const [activeCategory, setActiveCategory] = useState("food");
   const [menuData, setMenuData] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -35,13 +38,13 @@ export default function ProductSection() {
     }
   };
 
-// ✅ Move this inside render so it always gets the latest data
+  // ✅ Move this inside render so it always gets the latest data
   const filteredData = menuData
     .filter(item => item.category.toLowerCase() === activeCategory.toLowerCase())
     .map(item => ({
       ...item,
       type: item.available_stock > 0 ? "available" : "outstock"
-  }));
+    }));
 
   const categories = ["food", "drinks", "additional"];
 
@@ -51,7 +54,7 @@ export default function ProductSection() {
         {item.type === "available" ? <ProductItem menuData={item} /> : <ProductItem_outstock />}
       </View>
     );
-  };  
+  };
 
   return (
     <View className="px-6 bg-[#F2F2F2]">
@@ -64,11 +67,10 @@ export default function ProductSection() {
             className="flex-1 items-center"
           >
             <Text
-              className={`text-[17px] ${
-                activeCategory === category
-                  ? "text-[#FA4A0C] font-bold"
-                  : "text-gray-500"
-              }`}
+              className={`text-[17px] ${activeCategory === category
+                ? "text-[#FA4A0C] font-bold"
+                : "text-gray-500"
+                }`}
             >
               {category}
             </Text>
@@ -81,7 +83,11 @@ export default function ProductSection() {
 
       {/* See All */}
       <View className="mt-[15] flex-row justify-end px-5">
-        <TouchableOpacity onPress={() => console.log("See All pressed")}>
+        <TouchableOpacity
+          onPress={() => {
+            router.replace("/screen/seeall");
+          }}
+        >
           <Text className="text-[#FA4A0C]  text-[15px]">See All</Text>
         </TouchableOpacity>
       </View>
