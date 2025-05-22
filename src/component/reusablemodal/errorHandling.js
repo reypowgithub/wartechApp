@@ -1,4 +1,5 @@
-import { View, Text, Modal, StyleSheet, TouchableOpacity } from 'react-native';
+import React from 'react';
+import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
 export default function NotFoundModal({ visible, onClose }) {
     return (
@@ -7,7 +8,8 @@ export default function NotFoundModal({ visible, onClose }) {
                 <View style={styles.container}>
                     <Text style={styles.title}>Akun Tidak Ditemukan</Text>
                     <Text style={styles.description}>
-                        Kami tidak dapat menemukan akun dengan email yang Anda masukkan. Pastikan email Anda masukkan sudah benar atau coba lagi dengan lebih hati-hati.
+                        Kami tidak dapat menemukan akun dengan email yang Anda masukkan.
+                        Pastikan email Anda sudah benar atau coba lagi dengan lebih hati-hati.
                     </Text>
                     <TouchableOpacity style={styles.button} onPress={onClose}>
                         <Text style={styles.buttonText}>OK</Text>
@@ -53,5 +55,6 @@ const styles = StyleSheet.create({
     buttonText: {
         color: 'white',
         fontWeight: 'bold',
+        fontSize: 16,
     },
 });

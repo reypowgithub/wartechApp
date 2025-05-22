@@ -12,7 +12,6 @@ import api from "../../lib/api";
 import { useState, useEffect } from "react";
 
 import Header from "../../component/auth/loginHeader";
-import UserNotFound from "../../component/ErrorHandling/userNotFound"
 import Login_field from "../../component/auth/loginField";
 import LoginButton from "../../component/auth/loginButton";
 

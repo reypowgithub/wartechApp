@@ -1,7 +1,41 @@
-import { View, Text, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
+import React, { useState } from 'react';
 
 export default function OrderTrackerCard() {
+    const [statusStep, setStatusStep] = useState(0);
+    const router = useRouter();
+
+    const statusList = [
+        {
+            text: 'Confirmed',
+            color: '#007BFF',
+            background: '#E0F0FF',
+            message: 'Order kamu udah dikonfirmasi, ditunggu ya!',
+        },
+        {
+            text: 'Preparing',
+            color: '#FCAB8E',
+            background: '#FFECEC',
+            message: 'Tunggu sebentar lagi dimasakin nih, sabar ya',
+        },
+        {
+            text: 'Ready for Pickup',
+            color: '#FA4A0C',
+            background: '#E9F9EE',
+            message: 'Udah jadi, tinggal ambil aja jangan sampai dingin',
+        },
+    ];
+
+    const handleAdvanceStatus = () => {
+        if (statusStep < statusList.length - 1) {
+            setStatusStep((prev) => prev + 1);
+        } else {
+            router.replace("/(main)/history"); // redirect ke home setelah status terakhir
+        }
+    };
+
     return (
         <View style={styles.wrapper}>
             <Text style={styles.heading}>My Order</Text>
@@ -11,11 +45,23 @@ export default function OrderTrackerCard() {
                 {/* Order ID */}
                 <View style={styles.rowBetween}>
                     <Text style={styles.orderId}>Order ID : 12345678</Text>
-                    <Text style={styles.statusBadge}>Confirmed</Text>
+                    <Text
+                        style={[
+                            styles.statusBadge,
+                            {
+                                backgroundColor: statusList[statusStep].background,
+                                color: statusList[statusStep].color,
+                            },
+                        ]}
+                    >
+                        {statusList[statusStep].text}
+                    </Text>
                 </View>
 
                 {/* Order time */}
-                <Text style={styles.orderTime}>Order masuk: Rabu, 21 Mei 2025 08.42 WIB</Text>
+                <Text style={styles.orderTime}>
+                    Order masuk: Rabu, 21 Mei 2025 08.42 WIB
+                </Text>
 
                 {/* Items */}
                 <Text style={styles.sectionTitle}>Items</Text>
@@ -41,20 +87,19 @@ export default function OrderTrackerCard() {
                     <Text style={{ fontWeight: 'bold', color: '#FA4A0C' }}>Rp 51.000</Text>
                 </View>
 
-                {/* Input & Button */}
+                {/* Info Box */}
                 <View style={styles.row}>
                     <Ionicons
                         name="information-circle-outline"
                         size={24}
-                        color='#8EBEFC'
+                        color="#8EBEFC"
                         style={styles.icon}
                     />
-                    <Text style={styles.text}>
-                        Tunggu sebentar lagi dimasakin nih, sabar ya
-                    </Text>
+                    <Text style={styles.text}>{statusList[statusStep].message}</Text>
                 </View>
 
-                <TouchableOpacity style={styles.button}>
+                {/* Button */}
+                <TouchableOpacity style={styles.button} onPress={handleAdvanceStatus}>
                     <Text style={styles.buttonText}>Simulate: Advance to Next Status</Text>
                 </TouchableOpacity>
             </View>
@@ -65,28 +110,27 @@ export default function OrderTrackerCard() {
 const styles = StyleSheet.create({
     wrapper: {
         backgroundColor: '#FFF8F5',
+        flex: 1,
     },
     heading: {
         fontSize: 16,
-        fontWeight: '600',
+        fontWeight: 'bold',
         textAlign: 'center',
         marginBottom: 26,
         marginTop: 50,
-        fontWeight: 'bold'
     },
     subHeading: {
         fontSize: 34,
-        fontWeight: 'semi-bold',
+        fontWeight: '600',
         textAlign: 'left',
         marginBottom: 40,
-        marginLeft: 32
+        marginLeft: 32,
     },
     card: {
         backgroundColor: 'white',
         borderRadius: 16,
         padding: 16,
-        marginLeft: 16,
-        marginRight: 16
+        marginHorizontal: 16,
     },
     orderId: {
         fontWeight: 'bold',
@@ -98,8 +142,6 @@ const styles = StyleSheet.create({
         marginVertical: 4,
     },
     statusBadge: {
-        backgroundColor: '#E0F0FF',
-        color: '#007BFF',
         paddingHorizontal: 10,
         paddingVertical: 4,
         borderRadius: 10,
@@ -119,16 +161,6 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
     },
-    input: {
-        borderWidth: 1,
-        borderColor: '#FCAB8E',
-        backgroundColor: '#FEF7F7',
-        padding: 10,
-        borderRadius: 10,
-        marginTop: 16,
-        fontSize: 12,
-
-    },
     button: {
         backgroundColor: '#FA4A0C',
         paddingVertical: 12,
@@ -147,20 +179,20 @@ const styles = StyleSheet.create({
         marginVertical: 16,
     },
     row: {
-        flexDirection: 'row',     // ➜ bikin horizontal
-        alignItems: 'center',     // ➜ sejajarkan secara vertikal
+        flexDirection: 'row',
+        alignItems: 'center',
         paddingVertical: 8,
         backgroundColor: '#EBF4FF',
-        borderColor: '#8EBEFC',
-        marginTop: 16,
         borderRadius: 10,
-
+        marginTop: 16,
     },
     icon: {
-        marginRight: 12,           // ➜ jarak antara icon dan teks
-        left: 8,
+        marginRight: 12,
+        marginLeft: 8,
     },
     text: {
         fontSize: 12,
+        flex: 1,
+        flexWrap: 'wrap',
     },
 });
