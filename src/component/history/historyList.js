@@ -9,6 +9,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useEffect, useState } from "react";
 import api from "../../lib/api";
 import useAuthStore from "../../store/authStore";
+import HistoryNotFound from "../ErrorHandling/historyNotFound";
 
 const historyData = [
   {
@@ -86,6 +87,10 @@ export default function HistoryList() {
         break;
     }
   };
+
+  if(history.length <= 0) {
+    return <HistoryNotFound />
+  }
 
   return (
     <ScrollView className="bg-bg-[#F2F2F2] py-8">
