@@ -66,8 +66,8 @@ export default function HistoryList() {
           Authorization: `Bearer ${token}`,
         },
       });
-    //   setHistory(response.data);
-        setHistory(historyData); //Buat Testing
+      setHistory(response.data);
+      // setHistory(historyData); //Buat Testing
     } catch (error) {
       console.error("Error fetching history:", error);
       setError(error);

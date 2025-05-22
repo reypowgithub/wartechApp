@@ -1,10 +1,10 @@
 import { router } from "expo-router";
 import { Text, TouchableOpacity, View, ActivityIndicator } from "react-native";
 
-export default function CartButton({loading, handleCheckout, buttonText}) {
+export default function CartButton({loading, handlePress, buttonText}) {
   return (
     <TouchableOpacity 
-      onPress={handleCheckout}
+      onPress={handlePress}
       disabled={loading}
     >
       <View className="bg-[#FA4A0C] p-4 my-7 mx-8 rounded-[30px] h-[70px] justify-center items-center">
