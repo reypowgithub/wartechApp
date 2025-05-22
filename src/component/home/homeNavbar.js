@@ -1,8 +1,12 @@
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
+import { useEffect } from "react";
 
 export default function HomeNavbar({ activeTab }) {
+  useEffect(() => {
+    console.log(activeTab, "activeTab=");
+  }, [activeTab]);
   const handleNavigate = (route) => {
     router.replace(route);
   };
@@ -34,7 +38,7 @@ export default function HomeNavbar({ activeTab }) {
         onPress={() => handleNavigate("/(main)/cart")}
       >
         <Ionicons
-          name="cart-outline"
+          name="cart"
           size={24}
           color={activeTab === "cart" ? "#FF4500" : "#ccc"}
           style={activeTab === "cart" ? styles.iconShadow : null}
@@ -54,9 +58,10 @@ export default function HomeNavbar({ activeTab }) {
         onPress={() => handleNavigate("/(main)/order")}
       >
         <Ionicons
-          name="calendar-outline"
+          name="calendar"
           size={24}
           color={activeTab === "order" ? "#FF4500" : "#ccc"}
+          style={activeTab === "order" ? styles.iconShadow : null}
         />
         <Text
           style={[
@@ -73,9 +78,10 @@ export default function HomeNavbar({ activeTab }) {
         onPress={() => handleNavigate("/(main)/history")}
       >
         <Ionicons
-          name="refresh-circle-outline"
+          name="refresh-circle"
           size={24}
           color={activeTab === "history" ? "#FF4500" : "#ccc"}
+          style={activeTab === "history" ? styles.iconShadow : null}
         />
         <Text
           style={[

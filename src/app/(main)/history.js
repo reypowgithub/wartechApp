@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import HistoryList from "../../component/history/historyList";
-import HomeNavbar from "../../component/home/homeNavbar";
 import { useState } from "react";
 import { router } from "expo-router";
 
@@ -33,7 +32,6 @@ export default function History() {
         }}
       /> */}
       <HistoryList />
-      <HomeNavbar activeTab="history" />
     </View>
   );
 }

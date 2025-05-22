@@ -12,7 +12,6 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import CartItem from "../../component/cart/cartItems";
 import CartButton from "../../component/cart/cartButton";
-import HomeNavbar from "../../component/home/homeNavbar";
 import { useState, useEffect } from "react";
 import { router } from "expo-router";
 import ModalQris from "../payment/ModalQris";
@@ -228,7 +227,6 @@ export default function Cart() {
         </ScrollView>
       </View>
 
-      <HomeNavbar activeTab="cart" />
       <ModalQris
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}

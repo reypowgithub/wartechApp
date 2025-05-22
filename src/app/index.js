@@ -19,8 +19,6 @@ export default function Index() {
     console.log("Hit Index");
   }, []);
 
-  return <Redirect href={token ? "/(main)" : "/screen/home"} />
-
   if (loading) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
