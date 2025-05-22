@@ -2,36 +2,89 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 
-export default function HomeNavbar() {
-  const handleChart = () => {
-    router.replace("/cart");
+export default function HomeNavbar({ activeTab }) {
+  const handleNavigate = (route) => {
+    router.replace(route);
   };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.item}>
+      <TouchableOpacity
+        style={styles.item}
+        onPress={() => handleNavigate("/(main)")}
+      >
         <Ionicons
           name="home"
           size={24}
-          color="#FF4500"
-          style={styles.iconShadow}
+          color={activeTab === "home" ? "#FF4500" : "#ccc"}
+          style={activeTab === "home" ? styles.iconShadow : null}
         />
-        <Text style={[styles.label, { color: "#FF4500" }]}>Home</Text>
+        <Text
+          style={[
+            styles.label,
+            { color: activeTab === "home" ? "#FF4500" : "#ccc" },
+          ]}
+        >
+          Home
+        </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.item} onPress={handleChart}>
-        <Ionicons name="cart-outline" size={24} color="#ccc" />
-        <Text style={styles.label}>Cart</Text>
+      <TouchableOpacity
+        style={styles.item}
+        onPress={() => handleNavigate("/(main)/cart")}
+      >
+        <Ionicons
+          name="cart-outline"
+          size={24}
+          color={activeTab === "cart" ? "#FF4500" : "#ccc"}
+          style={activeTab === "cart" ? styles.iconShadow : null}
+        />
+        <Text
+          style={[
+            styles.label,
+            { color: activeTab === "cart" ? "#FF4500" : "#ccc" },
+          ]}
+        >
+          Cart
+        </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.item}>
-        <Ionicons name="calendar-outline" size={24} color="#ccc" />
-        <Text style={styles.label}>My Order</Text>
+      <TouchableOpacity
+        style={styles.item}
+        onPress={() => handleNavigate("/(main)/order")}
+      >
+        <Ionicons
+          name="calendar-outline"
+          size={24}
+          color={activeTab === "order" ? "#FF4500" : "#ccc"}
+        />
+        <Text
+          style={[
+            styles.label,
+            { color: activeTab === "order" ? "#FF4500" : "#ccc" },
+          ]}
+        >
+          My Order
+        </Text>
       </TouchableOpacity>
 
-      <TouchableOpacity style={styles.item}>
-        <Ionicons name="refresh-circle-outline" size={24} color="#ccc" />
-        <Text style={styles.label}>History</Text>
+      <TouchableOpacity
+        style={styles.item}
+        onPress={() => handleNavigate("/(main)/history")}
+      >
+        <Ionicons
+          name="refresh-circle-outline"
+          size={24}
+          color={activeTab === "history" ? "#FF4500" : "#ccc"}
+        />
+        <Text
+          style={[
+            styles.label,
+            { color: activeTab === "history" ? "#FF4500" : "#ccc" },
+          ]}
+        >
+          History
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -39,8 +92,8 @@ export default function HomeNavbar() {
 
 const styles = StyleSheet.create({
   container: {
-    position: "absolute", // ⬅️ agar menempel ke layar
-    bottom: 0, // ⬅️ menempel ke bawah
+    position: "absolute",
+    bottom: 0,
     left: 0,
     right: 0,
     flexDirection: "row",
@@ -70,6 +123,6 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.8,
     shadowRadius: 6,
-    elevation: 4, // for Android
+    elevation: 4,
   },
 });
