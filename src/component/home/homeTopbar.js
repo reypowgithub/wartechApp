@@ -4,7 +4,7 @@ import Logo from "../../../assets/wartech_logo.svg";
 import IconFavorit from "../../../assets/icon_favorit.svg";
 import Icon from "react-native-vector-icons/FontAwesome";
 
-export default function HomeTopBar({ setLogout }) {
+export default function HomeTopBar({ handleLogout }) {
   return (
     <View style={{ backgroundColor: "#F2F2F2" }}>
       <View style={styles.container}>
@@ -18,7 +18,7 @@ export default function HomeTopBar({ setLogout }) {
           </TouchableOpacity>
 
           {/* Logout Icon */}
-          <TouchableOpacity className="rounded-full p-2 bg-white shadow-md ">
+          <TouchableOpacity className="rounded-full p-2 bg-white shadow-md " onPress={handleLogout}>
             <Ionicons name="log-out-outline" size={28} color="#000" />
           </TouchableOpacity>
         </View>

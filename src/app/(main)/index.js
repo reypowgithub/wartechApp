@@ -23,18 +23,10 @@ export default function Home() {
     <View className="flex-1 bg-white">
       {/* Scrollable Content */}
       <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
-        <Topbar />
+        <Topbar handleLogout={handleLogout} />
         <ProductSection />
 
-        {/* Logout Button */}
-        <TouchableOpacity
-          onPress={handleLogout}
-          className="bg-[#FA4A0C] p-3 rounded-xl m-4"
-        >
-          <Text className="text-white text-center font-bold text-[16px]">
-            Logout
-          </Text>
-        </TouchableOpacity>
+        
       </ScrollView>
     </View>
   );

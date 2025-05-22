@@ -10,6 +10,7 @@ import {
 import Icon from "react-native-vector-icons/FontAwesome";
 import Rating from "../../component/rating/ratingList";
 import HomeNavbar from "../../component/home/homeNavbar";
+import HistoryList from "../../component/history/historyList";
 import { useState } from "react";
 import { router } from "expo-router";
 
