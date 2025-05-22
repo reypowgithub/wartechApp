@@ -15,7 +15,7 @@ export default function Home() {
     router.replace("/auth/login");
   };
 
-  const handleChart = () => {
+  const handleCart = () => {
     router.replace("/cart");
   };
 
