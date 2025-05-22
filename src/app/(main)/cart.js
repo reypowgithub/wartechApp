@@ -13,23 +13,67 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import CartItem from "../../component/cart/cartItems";
 import CartButton from "../../component/cart/cartButton";
 import HomeNavbar from "../../component/home/homeNavbar";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { router } from "expo-router";
 import ModalQris from "../payment/ModalQris";
+import api from "../../lib/api";
+import useAuthStore from "../../store/authStore";
 
 export default function Cart() {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
   // Dummy Data State
   const [cartData, setCartData] = useState([
-    { id: 1, name: "Pecel Sambal Lele", price: 6000 },
-    { id: 2, name: "Ayam Geprek", price: 12000 },
-    { id: 3, name: "Ayam Geprek", price: 12000 },
-    { id: 4, name: "Ayam Geprek", price: 12000 },
+    { id: 1, name: "Pecel Sambal Lele", price: 6000, quantity: 1 },
+    { id: 2, name: "Ayam Geprek", price: 12000, quantity: 1 },
+    { id: 3, name: "Ayam Geprek", price: 12000, quantity: 1 },
+    { id: 4, name: "Ayam Geprek", price: 12000, quantity: 1 },
   ]);
+
+  const token = useAuthStore((state) => state.token); // ✅ get token from Zustand
+
+  useEffect(() => {
+    if (token) {
+      fetchCartData();
+    }
+  }, [token]); // ✅ only fetch after token is ready
+
+  useEffect(() => {
+    console.log("Cart Data:", cartData[0]);
+  }, [cartData]);
+
+  const fetchCartData = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get("/cart", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+    //   setHistory(response.data);
+    console.log("Cart Data Response:", response.data.items);
+        setCartData(response.data.items); //Buat Testing
+    } catch (error) {
+      console.error("Error fetching history:", error);
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  const renderItem = ({ item }) => (
+    console.log("Item:", item.menuItem.price),
+    <CartItem
+      name={item.menuItem.name}
+      price={item.menuItem.price}
+      quantity={item.menuItem.quantity}
+      onDelete={() => handleDelete(item.menuItem.id)}
+    />
+  );
 
   const handleDelete = (id) => {
     Alert.alert(
