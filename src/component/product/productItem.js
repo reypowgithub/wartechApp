@@ -3,47 +3,30 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import icon from "../../../assets/icon.png";
 
 export default function ProductItem({ menuData }) {
-
-  const { name, price } = menuData;
+  const { image, name, price, rating } = menuData;
+  const imageSource = image ? { uri: image } : icon;
 
   console.log(menuData);
 
   return (
     <View className="m-4 items-center justify-center mt-[70]">
       <View className="bg-white pt-12 p-4 rounded-[30px] items-center justify-center w-[220px] h-[300px] shadow-md relative">
-
-        {
-          name ? 
-          (
-            <Text className="font-bold mb-1 text-[20px] text-black text-center mt-10">
-              {name}
-            </Text>
-          ) : (
-            <Text className="font-bold mb-1 text-[20px] text-black text-center mt-10">
-              Pecel Sambel Lele
-            </Text>
-          )
-        }
-        
+        <Text className="font-bold mb-1 text-[20px] text-black text-center mt-10">
+          {name}
+        </Text>
         <View className="flex-row m-2">
           <Text className="text-red-500 font-light text-[17px]">Rp. </Text>
-
-          {
-            price ? 
-            (
-              <Text className="text-red-500 font-light text-[17px]">{price}</Text>
-            ) : (
-              <Text className="text-red-500 font-light text-[17px]">0</Text>
-            )
-          }
-
+          <Text className="text-red-500 font-light text-[17px]">{price}</Text>
         </View>
         <View className="flex-row mt-2 mx-5 items-center space-x-1">
-          <Icon name="star" size={16} color="#FACC15" />
-          <Icon name="star" size={16} color="#FACC15" />
-          <Icon name="star" size={16} color="#FACC15" />
-          <Icon name="star" size={16} color="#FACC15" />
-          <Icon name="star-o" size={16} color="#FACC15" />
+          {Array.from({ length:5 }).map((_, index) => (
+            <Icon
+              key={index}
+              name={index < rating ? "star" : "star-o"}
+              size={16}
+              color="#FACC15"
+            />
+          ))}
         </View>
       </View>
 

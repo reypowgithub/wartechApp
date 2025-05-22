@@ -4,6 +4,8 @@ import Logo from '../../../assets/wartech_logo.svg';
 import IconFavorit from '../../../assets/icon_favorit.svg';
 
 export default function HomeTopBar() {
+
+    
     return (
         <View style={{ backgroundColor: "#F2F2F2" }}>
             <View style={styles.container}>
@@ -53,7 +55,6 @@ const styles = StyleSheet.create({
         marginHorizontal: 20,
         borderRadius: 10,
         marginTop: 20,
-        marginBottom: 20,
         borderRadius: 0,
     },
     icon: {
