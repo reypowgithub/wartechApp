@@ -54,7 +54,7 @@ export default function ProductSection() {
   };  
 
   return (
-    <View className="px-6">
+    <View className="px-6 bg-[#F2F2F2]">
       {/* Kategori */}
       <View className="flex-row mt-10">
         {categories.map((category) => (
@@ -97,7 +97,7 @@ export default function ProductSection() {
         snapToAlignment="center"
         decelerationRate="fast"
         contentContainerStyle={{ paddingHorizontal: 20, paddingBottom: 100 }}
-        className="mb-10 mt-8"
+        className="mb-10 "
       />
     </View>
   );
