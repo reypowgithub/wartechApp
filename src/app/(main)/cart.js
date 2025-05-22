@@ -24,22 +24,27 @@ export default function Cart() {
   const [selectedOption, setSelectedOption] = useState("");
   const [selectedTime, setSelectedTime] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
+  const [slot, setSlot] = useState([]); // ✅ Use state to manage slot data
 
   // Dummy Data State
-  const [cartData, setCartData] = useState([
-    { id: 1, name: "Pecel Sambal Lele", price: 6000, quantity: 1 },
-    { id: 2, name: "Ayam Geprek", price: 12000, quantity: 1 },
-    { id: 3, name: "Ayam Geprek", price: 12000, quantity: 1 },
-    { id: 4, name: "Ayam Geprek", price: 12000, quantity: 1 },
-  ]);
+  // const [cartData, setCartData] = useState([
+  //   { id: 1, name: "Pecel Sambal Lele", price: 6000, quantity: 1 },
+  //   { id: 2, name: "Ayam Geprek", price: 12000, quantity: 1 },
+  //   { id: 3, name: "Ayam Geprek", price: 12000, quantity: 1 },
+  //   { id: 4, name: "Ayam Geprek", price: 12000, quantity: 1 },
+  // ]);
+
+  const [cartData, setCartData] = useState([]); // ✅ Use state to manage cart data
+  const [cart, setCart] = useState([]); // ✅ Use state to manage cart data
 
   const token = useAuthStore((state) => state.token); // ✅ get token from Zustand
 
   useEffect(() => {
     if (token) {
       fetchCartData();
+      fetchSlotList();
     }
-  }, [token]); // ✅ only fetch after token is ready
+  }, [cartData]); // ✅ only fetch after token is ready
 
   useEffect(() => {
     console.log("Cart Data:", cartData[0]);
@@ -53,25 +58,43 @@ export default function Cart() {
           Authorization: `Bearer ${token}`,
         },
       });
-    //   setHistory(response.data);
-    console.log("Cart Data Response:", response.data.items);
-        setCartData(response.data.items); //Buat Testing
+      //   setHistory(response.data);
+      console.log("Cart Data Response:", response.data.items);
+      setCartData(response.data.items);
+      setCart(response.data);
     } catch (error) {
       console.error("Error fetching history:", error);
       setError(error);
     } finally {
       setLoading(false);
     }
-  }
+  };
+
+  const fetchSlotList = async () => {
+    setLoading(true);
+    try {
+      const response = await api.get("/slots", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      setSlot(response.data);
+    } catch (error) {
+      console.error("Error fetching slot list:", error);
+      setError(error);
+    }
+  };
 
   const renderItem = ({ item }) => (
-    console.log("Item:", item.menuItem.price),
-    <CartItem
-      name={item.menuItem.name}
-      price={item.menuItem.price}
-      quantity={item.menuItem.quantity}
-      onDelete={() => handleDelete(item.menuItem.id)}
-    />
+    console.log("Item:", item.menuItem?.price),
+    (
+      <CartItem
+        name={item.menuItem?.name}
+        price={item.menuItem?.price}
+        quantity={item.menuItem?.quantity}
+        onDelete={() => handleDelete(item.menuItem.id)}
+      />
+    )
   );
 
   const handleDelete = (id) => {
@@ -152,9 +175,11 @@ export default function Cart() {
 
             {cartData.map((item) => (
               <CartItem
-                key={item.id}
-                name={item.name}
-                price={item.price}
+                key={item?.id}
+                name={item.menuItem?.name}
+                price={item.menuItem?.price}
+                quantity={item.quantity}
+                productId={item?.id}
                 onDelete={() => handleDelete(item.id)}
               />
             ))}
@@ -162,7 +187,7 @@ export default function Cart() {
             <View className="flex-row justify-between pt-5">
               <Text className="text-[17px] text-[#FA4A0C]">Total</Text>
               <Text className="text-[17px] font-bold text-[#FA4A0C]">
-                Rp. {totalPrice.toLocaleString("id-ID")}
+                Rp. {cart?.total_price.toLocaleString("id-ID")}
               </Text>
             </View>
           </View>
