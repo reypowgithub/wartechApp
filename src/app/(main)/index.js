@@ -2,7 +2,6 @@ import { View, Text, Button, ScrollView, TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import ProductSection from "../../component/home/homeProductSection";
 import Topbar from "../../component/home/homeTopbar";
-import Navbar from "../../component/home/homeNavbar";
 import useAuthStore from "../../store/authStore";
 // import RatingList from '../../component/rating/ratingList';
 
@@ -24,22 +23,11 @@ export default function Home() {
     <View className="flex-1 bg-white">
       {/* Scrollable Content */}
       <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
-        <Topbar />
+        <Topbar handleLogout={handleLogout} />
         <ProductSection />
 
-        {/* Logout Button */}
-        <TouchableOpacity
-          onPress={handleLogout}
-          className="bg-[#FA4A0C] p-3 rounded-xl m-4"
-        >
-          <Text className="text-white text-center font-bold text-[16px]">
-            Logout
-          </Text>
-        </TouchableOpacity>
+        
       </ScrollView>
-
-      {/* Navbar tetap di bawah */}
-      <Navbar />
     </View>
   );
 }

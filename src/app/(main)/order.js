@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import OrderTrack from "../../component/order/orderTrack";
-import HomeNavbar from "../../component/home/homeNavbar";
 import { useState } from "react";
 import { router } from "expo-router";
 
@@ -32,7 +31,6 @@ export default function History() {
         }}
       /> */}
       <OrderTrack />
-      <HomeNavbar activeTab="history" />
     </View>
   );
 }

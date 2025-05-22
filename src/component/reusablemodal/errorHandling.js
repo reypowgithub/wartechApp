@@ -1,15 +1,19 @@
 import React from 'react';
 import { Modal, View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-export default function NotFoundModal({ visible, onClose }) {
+export default function ReusableErrorModal({ visible, onClose, status, message }) {
+
+    if(!status || !message) {
+        return <></>
+    }
+
     return (
         <Modal visible={visible} transparent animationType="fade">
             <View style={styles.overlay}>
                 <View style={styles.container}>
-                    <Text style={styles.title}>Akun Tidak Ditemukan</Text>
+                    <Text style={styles.title}>{status}</Text>
                     <Text style={styles.description}>
-                        Kami tidak dapat menemukan akun dengan email yang Anda masukkan.
-                        Pastikan email Anda sudah benar atau coba lagi dengan lebih hati-hati.
+                        {message}
                     </Text>
                     <TouchableOpacity style={styles.button} onPress={onClose}>
                         <Text style={styles.buttonText}>OK</Text>

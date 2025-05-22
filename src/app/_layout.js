@@ -1,11 +1,14 @@
-import { setStatusBarBackgroundColor, StatusBar } from "expo-status-bar";
+import { StatusBar } from "expo-status-bar";
 import { View } from "react-native";
-import { SafeAreaProvider } from "react-native-safe-area-context";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Stack } from "expo-router";
 
+import useErrorStore from "../store/errorStore";
+import ReusableErrorModal from "../component/reusablemodal/errorHandling";
 
 export default function RootLayout() {
+  const { visible, status, message, hideError } = useErrorStore();
+
   return (
     <View style={{ flex: 1 }}>
       <SafeAreaProvider>
@@ -16,11 +19,16 @@ export default function RootLayout() {
               StatusBarBackgroundColor: "#ffffff",
               StatusBarStyle: "dark",
               ContentStyle: { backgroundColor: "#f2f2f2" },
-              animation: "slide_from_right", // <-- animasi slide dari kanan
+              animation: "slide_from_right",
             }}
-          >
-            <StatusBar style="dark" />
-          </Stack>
+          />
+          <StatusBar style="dark" />
+          <ReusableErrorModal
+            visible={visible}
+            status={status}
+            message={message}
+            onClose={hideError}
+          />
         </SafeAreaView>
       </SafeAreaProvider>
     </View>

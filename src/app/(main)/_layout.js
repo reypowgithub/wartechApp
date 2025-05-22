@@ -1,15 +1,20 @@
 import { View, StyleSheet } from "react-native";
 import { Slot, usePathname } from "expo-router";
 import HomeNavbar from "../../component/home/homeNavbar";
+import { useEffect, useState } from "react";
 
 export default function MainLayout() {
   const pathname = usePathname();
 
   // Tentukan tab aktif berdasarkan pathname
-  let activeTab = "home";
-  if (pathname.startsWith("/(main)/cart")) {activeTab = "cart"}
-  else if (pathname.startsWith("/(main)/order")) {activeTab = "order"}
-  else if (pathname.startsWith("/(main)/history")) {activeTab = "history"}
+  const [activeTab, setActiveTab] = useState("home");
+
+  useEffect(() => {
+    if (pathname.startsWith("/cart")) {setActiveTab("cart")}
+    else if (pathname.startsWith("/order")) {setActiveTab("order")}
+    else if (pathname.startsWith("/history")) {setActiveTab("history")}
+    else {setActiveTab("home")}
+  }, [pathname]);
 
   return (
     <View style={styles.container}>

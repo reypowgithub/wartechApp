@@ -4,7 +4,12 @@ import icon from "../../../assets/icon.png";
 
 export default function ProductItem({ menuData }) {
   const { image, name, price, rating } = menuData;
-  const imageSource = image ? { uri: image } : icon;
+  const imageSource = image
+    ? { uri: `https://bhgkx5m5-3000.asse.devtunnels.ms/api/images/${image}` }
+    : icon;
+
+    console.log("Image Source:", imageSource);
+    
 
   console.log(menuData);
 
@@ -19,7 +24,7 @@ export default function ProductItem({ menuData }) {
           <Text className="text-red-500 font-light text-[17px]">{price}</Text>
         </View>
         <View className="flex-row mt-2 mx-5 items-center space-x-1">
-          {Array.from({ length:5 }).map((_, index) => (
+          {Array.from({ length: 5 }).map((_, index) => (
             <Icon
               key={index}
               name={index < rating ? "star" : "star-o"}
@@ -29,6 +34,8 @@ export default function ProductItem({ menuData }) {
           ))}
         </View>
       </View>
+
+
 
       <Image
         source={icon}
