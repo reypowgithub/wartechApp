@@ -10,6 +10,7 @@ import ProductItem from "../product/productItem";
 import ProductItem_outstock from "../product/productOutstock";
 import api from "../../lib/api";
 import { useRouter } from "expo-router";
+import { Link } from "expo-router";
 
 const { width } = Dimensions.get("window");
 
@@ -51,7 +52,15 @@ export default function ProductSection() {
   const renderItem = ({ item }) => {
     return (
       <View style={{ width: width - 40 }}>
-        {item.type === "available" ? <ProductItem menuData={item} /> : <ProductItem_outstock />}
+        <Link href={`/screen/product/${item.id}`} asChild>
+          <TouchableOpacity activeOpacity={0.8}>
+            {item.type === "available" ? (
+              <ProductItem menuData={item} />
+            ) : (
+              <ProductItem_outstock />
+            )}
+          </TouchableOpacity>
+        </Link>
       </View>
     );
   };

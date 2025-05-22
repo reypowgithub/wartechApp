@@ -14,7 +14,7 @@ export default function FoodsHeadbar() {
             <View style={styles.container}>
                 <View>
                     <TouchableOpacity
-                        onPress={() => router.replace("./home")}
+                        onPress={() => router.replace("/screen/home")}
                     >
                         <Ionicons name="chevron-back-outline" size={24} color="#FA4A0C" />
                     </TouchableOpacity>

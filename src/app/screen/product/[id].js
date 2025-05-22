@@ -12,12 +12,16 @@ import {
 import ProductHeadBar from "../../../component/product/productHeadbar";
 import ProductDetail from "../../../component/product/productDetail";
 import ProductBtnAddToCart from "../../../component/product/productBtnAddCart";
+import { useLocalSearchParams } from 'expo-router';
 
-export default function HomeScreen() {
+export default function ProductItemDetail() {
+
+    const { id } = useLocalSearchParams();
+
     return (
         <View>
             <ProductHeadBar />
-            <ProductDetail />
+            <ProductDetail id={id} />
             <ProductBtnAddToCart />
         </View>
     );
