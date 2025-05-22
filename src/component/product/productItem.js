@@ -3,12 +3,10 @@ import Icon from "react-native-vector-icons/FontAwesome";
 import icon from "../../../assets/icon.png";
 
 export default function ProductItem({ menuData }) {
-  const { image, name, price, rating } = menuData;
-  const imageSource = image
-    ? { uri: `https://bhgkx5m5-3000.asse.devtunnels.ms/api/images/${image}` }
-    : icon;
+  const { name, price, rating } = menuData;
+  const imageSource = '../../assets/images/pecel-sambal-lele.png'; // Update this to your image path
 
-    console.log("Image Source:", imageSource);
+  console.log("Image Source:", imageSource);
     
 
   console.log(menuData);
@@ -38,7 +36,7 @@ export default function ProductItem({ menuData }) {
 
 
       <Image
-        source={icon}
+        source={require('../../../assets/images/pecel-sambal-lele.png')}
         className="w-[164px] h-[164px] rounded-full absolute -top-[60px]"
       />
     </View>

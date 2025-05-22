@@ -180,6 +180,7 @@ export default function Cart() {
                 price={item.menuItem?.price}
                 quantity={item.quantity}
                 productId={item?.id}
+                image={item.menuItem?.image}
                 onDelete={() => handleDelete(item.id)}
               />
             ))}
@@ -187,7 +188,7 @@ export default function Cart() {
             <View className="flex-row justify-between pt-5">
               <Text className="text-[17px] text-[#FA4A0C]">Total</Text>
               <Text className="text-[17px] font-bold text-[#FA4A0C]">
-                Rp. {cart?.total_price.toLocaleString("id-ID")}
+                Rp. {cart?.total_price}
               </Text>
             </View>
           </View>
