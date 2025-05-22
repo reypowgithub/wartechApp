@@ -77,6 +77,8 @@ export default function HistoryList() {
     }
   };
 
+
+  //kata rafi
   const mapOrderType = (type) => {
     switch (type) {
       case "dine_in":

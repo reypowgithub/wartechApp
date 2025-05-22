@@ -1,5 +1,5 @@
 import { View, Text, TextInput, StyleSheet } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+
 import Logo from '../../../assets/wartech_logo.svg';
 import IconFavorit from '../../../assets/icon_favorit.svg';
 
@@ -15,15 +15,6 @@ export default function HomeTopBar() {
 
             <View style={styles.hero}>
                 <Text style={{ fontSize: 34 }}>Santapan enak bwanget buat lo!</Text>
-            </View>
-
-            <View style={styles.searchContainer}>
-                <Ionicons name="search" size={20} color="#000" style={styles.icon} />
-                <TextInput
-                    placeholder="Search"
-                    style={styles.input}
-                    placeholderTextColor="#000"
-                />
             </View>
         </View>
     );

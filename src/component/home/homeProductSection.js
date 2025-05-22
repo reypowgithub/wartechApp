@@ -5,12 +5,14 @@ import {
   View,
   FlatList,
   Dimensions,
+  TextInput,
 } from "react-native";
 import ProductItem from "../product/productItem";
 import ProductItem_outstock from "../product/productOutstock";
 import api from "../../lib/api";
 import { useRouter } from "expo-router";
 import { Link } from "expo-router";
+import { Ionicons } from '@expo/vector-icons';
 
 const { width } = Dimensions.get("window");
 
@@ -21,6 +23,9 @@ export default function ProductSection() {
   const [menuData, setMenuData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const [searchQuery, setSearchQuery] = useState('');
+
 
   useEffect(() => {
     fetchMenu();
@@ -41,7 +46,12 @@ export default function ProductSection() {
 
   // ✅ Move this inside render so it always gets the latest data
   const filteredData = menuData
-    .filter(item => item.category.toLowerCase() === activeCategory.toLowerCase())
+    .filter(item =>
+      item.category.toLowerCase() === activeCategory.toLowerCase()
+    )
+    .filter(item =>
+      item.name.toLowerCase().includes(searchQuery.toLowerCase())
+    )
     .map(item => ({
       ...item,
       type: item.available_stock > 0 ? "available" : "outstock"
@@ -67,6 +77,18 @@ export default function ProductSection() {
 
   return (
     <View className="px-6 bg-[#F2F2F2]">
+      <View className="flex-row items-center bg-[#EFEEEE] px-3 py-2 mx-5 mt-5 rounded">
+        <Ionicons name="search" size={20} color="#000" className="mr-2" />
+        <TextInput
+          placeholder="Search"
+          placeholderTextColor="#000"
+          className="flex-1 text-[16px] text-black"
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+
+      </View>
+
       {/* Kategori */}
       <View className="flex-row mt-10">
         {categories.map((category) => (

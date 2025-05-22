@@ -1,40 +1,80 @@
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useRouter } from 'expo-router';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import useAuthStore from '../../store/authStore';
+import api from '../../lib/api';
 
 export default function OrderTrackerCard() {
-    const [statusStep, setStatusStep] = useState(0);
+    const [orders, setOrders] = useState([]);
     const router = useRouter();
+    const token = useAuthStore((state) => state.token); // ✅ get token from Zustand
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState(null);
 
-    const statusList = [
-        {
-            text: 'Confirmed',
-            color: '#007BFF',
-            background: '#E0F0FF',
-            message: 'Order kamu udah dikonfirmasi, ditunggu ya!',
-        },
-        {
-            text: 'Preparing',
-            color: '#FCAB8E',
-            background: '#FFECEC',
-            message: 'Tunggu sebentar lagi dimasakin nih, sabar ya',
-        },
-        {
-            text: 'Ready for Pickup',
-            color: '#FA4A0C',
-            background: '#E9F9EE',
-            message: 'Udah jadi, tinggal ambil aja jangan sampai dingin',
-        },
-    ];
+    console.log("Token:", token);
 
-    const handleAdvanceStatus = () => {
-        if (statusStep < statusList.length - 1) {
-            setStatusStep((prev) => prev + 1);
-        } else {
-            router.replace("/(main)/history"); // redirect ke home setelah status terakhir
+    useEffect(() => {
+        if (token) {
+            fetchOrderList();
+        }
+    }, [token]); // ✅ only fetch after token is ready
+
+    useEffect(() => {
+        console.log("Order updated:", orders);
+    }, [orders]);
+
+    const fetchOrderList = async () => {
+        setLoading(true);
+        try {
+            const response = await api.get("/order/history", {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            setOrders(response.data);
+            // setHistory(historyData); //Buat Testing
+        } catch (error) {
+            console.error("Error fetching order status:", error);
+            setError(error);
+        } finally {
+            setLoading(false);
         }
     };
+
+    const mapOrderType = (status) => {
+        switch (status) {
+            case 'confirmed':
+                return {
+                    text: 'Confirmed',
+                    color: '#007BFF',
+                    background: '#E0F0FF',
+                    message: 'Order kamu udah dikonfirmasi, ditunggu ya!',
+                };
+            case 'preparing':
+                return {
+                    text: 'Preparing',
+                    color: '#FCAB8E',
+                    background: '#FFF1E5',
+                    message: 'Tunggu sebentar lagi dimasakin nih, sabar ya',
+                };
+            case 'ready':
+                return {
+                    text: 'Ready for Pickup',
+                    color: '#FA4A0C',
+                    background: '#FEECE5',
+                    message: 'Udah jadi, tinggal ambil aja jangan sampai dingin',
+                };
+            default:
+                return {
+                    text: 'Unknown',
+                    color: '#888',
+                    background: '#EEE',
+                    message: 'Status tidak diketahui',
+                };
+        }
+    };
+    const currentStatus = mapOrderType(orders.status);
 
     return (
         <View style={styles.wrapper}>
@@ -42,28 +82,26 @@ export default function OrderTrackerCard() {
             <Text style={styles.subHeading}>Track Order Lo!</Text>
 
             <View style={styles.card}>
-                {/* Order ID */}
                 <View style={styles.rowBetween}>
+
                     <Text style={styles.orderId}>Order ID : 12345678</Text>
                     <Text
                         style={[
                             styles.statusBadge,
                             {
-                                backgroundColor: statusList[statusStep].background,
-                                color: statusList[statusStep].color,
+                                backgroundColor: currentStatus.background,
+                                color: currentStatus.color,
                             },
                         ]}
                     >
-                        {statusList[statusStep].text}
+                        {currentStatus.text}
                     </Text>
                 </View>
 
-                {/* Order time */}
                 <Text style={styles.orderTime}>
                     Order masuk: Rabu, 21 Mei 2025 08.42 WIB
                 </Text>
 
-                {/* Items */}
                 <Text style={styles.sectionTitle}>Items</Text>
                 <View style={styles.itemList}>
                     <Text>• Pecel Sambel Lele [1x] - Rp 21.000</Text>
@@ -73,7 +111,6 @@ export default function OrderTrackerCard() {
                     <Text>• Sayur Asem [1x] - Rp 5.000</Text>
                 </View>
 
-                {/* Slot & Method */}
                 <View style={[styles.rowBetween, { marginTop: 12 }]}>
                     <Text>21 May, 17:00 - 17:30</Text>
                     <Text style={{ fontWeight: '600' }}>Pickup</Text>
@@ -81,13 +118,11 @@ export default function OrderTrackerCard() {
 
                 <View style={styles.divider} />
 
-                {/* Total */}
                 <View style={[styles.rowBetween, { marginTop: 12 }]}>
                     <Text style={{ fontWeight: 'bold' }}>Total :</Text>
                     <Text style={{ fontWeight: 'bold', color: '#FA4A0C' }}>Rp 51.000</Text>
                 </View>
 
-                {/* Info Box */}
                 <View style={styles.row}>
                     <Ionicons
                         name="information-circle-outline"
@@ -95,15 +130,14 @@ export default function OrderTrackerCard() {
                         color="#8EBEFC"
                         style={styles.icon}
                     />
-                    <Text style={styles.text}>{statusList[statusStep].message}</Text>
+                    <Text style={styles.text}>{currentStatus.message}</Text>
                 </View>
 
-                {/* Button */}
-                <TouchableOpacity style={styles.button} onPress={handleAdvanceStatus}>
+                <TouchableOpacity style={styles.button} onPress={() => { }}>
                     <Text style={styles.buttonText}>Simulate: Advance to Next Status</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </View >
     );
 }
 
