@@ -16,7 +16,7 @@ export default function Seeall() {
     return (
         <View className="flex-1 relative bg-white">
             <ProductHeadBar />
-            <ScrollView contentContainerStyle={{ }}>
+            <ScrollView contentContainerStyle={{}}>
                 <ProductList />
             </ScrollView>
         </View>
