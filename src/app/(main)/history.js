@@ -20,17 +20,6 @@ export default function History() {
 
   return (
     <View style={{ flex: 1, paddingBottom: 80 }}>
-      {/* <FlatList
-        data={cartData}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.id.toString()}
-        showsVerticalScrollIndicator={false}
-        contentContainerStyle={{
-          paddingHorizontal: 20,
-          paddingBottom: 100,
-          marginTop: 20,
-        }}
-      /> */}
       <HistoryList />
     </View>
   );

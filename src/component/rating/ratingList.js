@@ -11,6 +11,7 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 import api from '../../lib/api';
 import useAuthStore from '../../store/authStore';
+import { useRouter } from 'expo-router';
 
 import dummyImage from '../../../assets/food.png'
 
@@ -53,6 +54,7 @@ const dummyData = [
 ];
 
 export default function RatingList() {
+    const router = useRouter();
     const [foods, setFoods] = useState(dummyData);
     const [menuItems, setMenuItems] = useState([]);
     const [totalRating, setTotalRating] = useState(null);
@@ -70,59 +72,59 @@ export default function RatingList() {
     const fetchOrderDetails = async () => {
         const id = 1;
         try {
-          const response = await api.get(`/order/${id}`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
-      
-          const withRating = response.data.items.map(item => ({
-            ...item,
-            rating: 0, // Local-only field
-          }));
-      
-          setMenuItems(withRating);
+            const response = await api.get(`/order/${id}`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+
+            const withRating = response.data.items.map(item => ({
+                ...item,
+                rating: 0, // Local-only field
+            }));
+
+            setMenuItems(withRating);
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
     };
 
     const addRatings = async (menuItemId, value) => {
         try {
-          await api.post(`/rate/${menuItemId}`, { rating: value });
-          console.log(`Rated ${value} for menu item ${menuItemId}`);
+            await api.post(`/rate/${menuItemId}`, { rating: value });
+            console.log(`Rated ${value} for menu item ${menuItemId}`);
         } catch (error) {
-          console.error('Rating error:', error.response?.data || error.message);
+            console.error('Rating error:', error.response?.data || error.message);
         }
     };
-      
+
 
     const handleSendReview = async () => {
         try {
-          setLoading(true);
-          const ratedItems = menuItems.filter(item => item.rating > 0);
-      
-          if (ratedItems.length === 0) {
-            alert("Please rate at least one item.");
-            return;
-          }
-      
-          await Promise.all(
-            ratedItems.map(item =>
-              api.post(`/rate/${item.menuItem.id}`, {
-                rating: item.rating
-              })
-            )
-          );
-      
-          alert("Thanks! Your reviews have been submitted.");
+            setLoading(true);
+            const ratedItems = menuItems.filter(item => item.rating > 0);
+
+            if (ratedItems.length === 0) {
+                alert("Please rate at least one item.");
+                return;
+            }
+
+            await Promise.all(
+                ratedItems.map(item =>
+                    api.post(`/rate/${item.menuItem.id}`, {
+                        rating: item.rating
+                    })
+                )
+            );
+
+            alert("Thanks! Your reviews have been submitted.");
         } catch (error) {
-          console.error("Submission failed:", error.response?.data || error.message);
-          alert("Failed to submit reviews. Please try again.");
+            console.error("Submission failed:", error.response?.data || error.message);
+            alert("Failed to submit reviews. Please try again.");
         } finally {
-          setLoading(false);
+            setLoading(false);
         }
-    };      
+    };
 
     const handleChangeComment = (id, newComment) => {
         const updated = foods.map(food =>
@@ -133,9 +135,12 @@ export default function RatingList() {
 
     return (
         <View style={styles.wrapper}>
-            <View style={styles.topbar}>
-                <Ionicons name="chevron-back-outline" size={24} color="#FA4A0C" style={styles.icon} />
-            </View>
+            {/* <TouchableOpacity onPress={() => router.replace("/rating")}>
+                <View style={styles.topbar}>
+                    <Ionicons name="chevron-back-outline" size={24} color="#FA4A0C" style={styles.icon} />
+                </View>
+            </TouchableOpacity> */}
+
 
             <Text style={styles.header}>Rating</Text>
 
@@ -151,33 +156,33 @@ export default function RatingList() {
 
                 {/* Scrollable only this section */}
                 <ScrollView style={{ maxHeight: 300 }} showsVerticalScrollIndicator={false}>
-                {menuItems.map((item) => (
-                    <View key={item.id} style={styles.foodRow}>
-                        <Image source={dummyImage} style={styles.image} />
-                        <View style={{ flex: 1 }}>
-                            <Text style={styles.foodName}>{item.menuItem.name}</Text>
-                            <View style={styles.starRow}>
-                            {[1, 2, 3, 4, 5].map(i => (
-                                <TouchableOpacity
-                                key={i}
-                                onPress={() => {
-                                    const updated = menuItems.map(f =>
-                                    f.id === item.id ? { ...f, rating: i } : f
-                                    );
-                                    setMenuItems(updated);
-                                }}
-                                >
-                                <Ionicons
-                                    name={i <= item.rating ? 'star' : 'star-outline'}
-                                    size={20}
-                                    color="#FFD700"
-                                />
-                                </TouchableOpacity>
-                            ))}
+                    {menuItems.map((item) => (
+                        <View key={item.id} style={styles.foodRow}>
+                            <Image source={dummyImage} style={styles.image} />
+                            <View style={{ flex: 1 }}>
+                                <Text style={styles.foodName}>{item.menuItem.name}</Text>
+                                <View style={styles.starRow}>
+                                    {[1, 2, 3, 4, 5].map(i => (
+                                        <TouchableOpacity
+                                            key={i}
+                                            onPress={() => {
+                                                const updated = menuItems.map(f =>
+                                                    f.id === item.id ? { ...f, rating: i } : f
+                                                );
+                                                setMenuItems(updated);
+                                            }}
+                                        >
+                                            <Ionicons
+                                                name={i <= item.rating ? 'star' : 'star-outline'}
+                                                size={20}
+                                                color="#FFD700"
+                                            />
+                                        </TouchableOpacity>
+                                    ))}
+                                </View>
                             </View>
                         </View>
-                    </View>
-                ))}
+                    ))}
                 </ScrollView>
             </View>
             <TouchableOpacity

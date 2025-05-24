@@ -23,20 +23,12 @@ export default function HomeTopBar({ handleLogout }) {
         </View>
       </View>
 
-            <View style={styles.hero}>
-                <Text style={{ fontSize: 34 }}>Santapan enak bwanget buat lo!</Text>
-            </View>
+      <View style={styles.hero}>
+        <Text style={{ fontSize: 34 }}>Santapan enak bwanget buat lo!</Text>
+      </View>
 
-            <View style={styles.searchContainer}>
-                <Ionicons name="search" size={20} color="#000" style={styles.icon} />
-                <TextInput
-                    placeholder="Search"
-                    style={styles.input}
-                    placeholderTextColor="#000"
-                />
-            </View>
-        </View>
-    );
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

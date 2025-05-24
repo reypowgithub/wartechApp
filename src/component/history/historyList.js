@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import api from "../../lib/api";
 import useAuthStore from "../../store/authStore";
 import HistoryNotFound from "../ErrorHandling/historyNotFound";
+import { useRouter } from 'expo-router';
 
 const historyData = [
   {
@@ -44,6 +45,7 @@ const historyData = [
 ];
 
 export default function HistoryList() {
+  const router = useRouter();
   const [history, setHistory] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -90,7 +92,7 @@ export default function HistoryList() {
     }
   };
 
-  if(history.length <= 0) {
+  if (history.length <= 0) {
     return <HistoryNotFound />
   }
 
@@ -135,7 +137,8 @@ export default function HistoryList() {
             </Text>
           </View>
 
-          <TouchableOpacity className="mt-6 mb-6 bg-orange-500 rounded-2xl py-3 flex-row items-center justify-center gap-2">
+          <TouchableOpacity className="mt-6 mb-6 bg-orange-500 rounded-2xl py-3 flex-row items-center justify-center gap-2"
+            onPress={() => router.replace("/rating")}>
             <Text className="text-white font-bold text-sm">
               Ceritain pengalaman makan lo yuk
             </Text>
