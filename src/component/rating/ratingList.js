@@ -134,13 +134,13 @@ export default function RatingList() {
     };
 
     return (
+        // tombol back
         <View style={styles.wrapper}>
-            {/* <TouchableOpacity onPress={() => router.replace("/rating")}>
-                <View style={styles.topbar}>
+            <TouchableOpacity onPress={() => router.replace("/history")}>
+                <View View style={styles.topbar} >
                     <Ionicons name="chevron-back-outline" size={24} color="#FA4A0C" style={styles.icon} />
                 </View>
-            </TouchableOpacity> */}
-
+            </TouchableOpacity >
 
             <Text style={styles.header}>Rating</Text>
 
@@ -194,7 +194,7 @@ export default function RatingList() {
                     {loading ? 'Submitting...' : 'Kirim review lo'}
                 </Text>
             </TouchableOpacity>
-        </View>
+        </View >
     );
 }
 
